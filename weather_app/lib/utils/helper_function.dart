@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String getFormattedDateTime(num dt, String pattern) {
   return DateFormat(pattern)
-      .format(DateTime.fromMicrosecondsSinceEpoch(dt.toInt() * 1000));
+      .format(DateTime.fromMillisecondsSinceEpoch(dt.toInt() * 1000));
 }
 
 String getFormattedDate(num date, String? pattern) {
@@ -18,25 +18,16 @@ String getFormattedTime(num date, String? pattern) {
 }
 
 void showMsg(BuildContext context, String msg) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(msg)),
-  );
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg),
+  ));
 }
 
-void showMsgWithAction(
-    {required BuildContext context,
-    required String msg,
-    required VoidCallback callback}) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      duration: const Duration(days: 365),
-      content: Text(msg),
-      action: SnackBarAction(
-          label: 'Go to Settings',
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            callback();
-          }),
-    ),
-  );
+Future<bool> isConnectedToInternet() async {
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.mobile ||
+      connectivityResult == ConnectivityResult.wifi) {
+    return true;
+  }
+  return false;
 }
