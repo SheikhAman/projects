@@ -31,8 +31,8 @@ const cities = [
   'Giza',
   'Hanoy',
   'London',
-  'Morocco'
-      'New York'
-      'Sydney',
+  'Morocco',
+   'New York',
+   'Sydney',
   'Tokyo'
 ];
